@@ -47,6 +47,7 @@
     <link href="portfolio.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="portfolio-body bg-paper text-ink antialiased">
+    <canvas id="mercury-canvas" class="mercury-canvas" aria-hidden="true"></canvas>
     <div class="page-aura page-aura-one"></div>
     <div class="page-aura page-aura-two"></div>
 
@@ -67,55 +68,46 @@
 
     <main>
         <section class="hero-shell">
-            <div class="mx-auto grid max-w-7xl gap-10 px-6 pt-28 pb-14 lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:pt-36">
-                <div class="hero-copy">
+            <div class="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center justify-center px-6 pt-20 pb-14 lg:px-10">
+                <div class="hero-copy hero-copy-centered">
                     <p class="eyebrow">AI SYSTEMS · LLM FINETUNING · GRAPH INTELLIGENCE</p>
                     <h1 class="hero-title">
-                        为
-                        <span class="accent-line">认知系统</span>
-                        设计可感知的界面，
-                        让技术深度与审美克制同频。
+                        在
+                        <span class="accent-line">智能系统、复杂关系与可感知界面</span>
+                        之间，
+                        构建兼具研究深度与审美张力的数字作品。
                     </h1>
                     <p class="hero-text">
-                        Jiayi Lu / 陆佳艺。聚焦大语言模型微调、图网络与控制系统建模、视频目标检测、自动化网络安全，也持续书写心理学、复杂系统与人机感知之间的连接。
+                        我是 Jiayi Lu / 陆佳艺，一名关注人工智能与复杂系统交叉地带的研究型创作者。我的工作围绕大语言模型微调、图网络与控制系统建模、视频目标检测、自动化网络安全展开，同时持续思考心理学、关系结构与人机感知如何共同塑造下一代智能界面。
+                    </p>
+                    <p class="hero-text hero-text-secondary">
+                        我希望做的不是把技术结果堆在页面上，而是把推理、关系、证据与不确定性翻译成能够被直觉感知的视觉秩序。这个首页因此被设计成一片会随鼠标流动的“水银场”：它既像参数空间，也像认知表面，既有系统的连续性，也保留了思维被扰动时的弹性与余波。
                     </p>
 
                     <div class="hero-notes">
-                        <span>Warm white canvas</span>
-                        <span>Asymmetric editorial rhythm</span>
-                        <span>Interactive topology as signature</span>
+                        <span>LLM finetuning & alignment</span>
+                        <span>Graph intelligence & control</span>
+                        <span>Video reasoning & cyber defense</span>
                     </div>
 
                     <div class="hero-metadata">
                         <div class="meta-card">
-                            <span class="meta-label">Current Lens</span>
-                            <span class="meta-value">LLM + Graph + Security</span>
+                            <span class="meta-label">Research Focus</span>
+                            <span class="meta-value">LLM, Graph Systems, Vision, Security</span>
                         </div>
                         <div class="meta-card">
-                            <span class="meta-label">Frontend Medium</span>
-                            <span class="meta-value">React · Vue · Three.js · Tailwind</span>
+                            <span class="meta-label">Creative Medium</span>
+                            <span class="meta-value">React · Vue · Three.js · Tailwind · Streamlit</span>
+                        </div>
+                        <div class="meta-card">
+                            <span class="meta-label">Interface Intention</span>
+                            <span class="meta-value">Make abstract intelligence perceptible</span>
                         </div>
                     </div>
 
                     <div class="hero-actions">
                         <a href="mailto:lu_jiayi@shu.edu.cn" class="primary-link">Contact</a>
                         <a href="#projects" class="secondary-link">View Selected Works</a>
-                    </div>
-                </div>
-
-                <div class="hero-stage">
-                    <div class="hero-stage-frame">
-                        <canvas id="hero-canvas" aria-label="interactive topology field"></canvas>
-                        <div class="hero-stage-overlay">
-                            <div class="signal-card">
-                                <span class="signal-title">PARAMETER FIELD</span>
-                                <span class="signal-copy">mouse gravity / ripple click / evolving topology</span>
-                            </div>
-                            <div class="signal-card align-end">
-                                <span class="signal-title">MODE</span>
-                                <span class="signal-copy">cognitive interface specimen</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -126,13 +118,13 @@
                 <div class="max-w-3xl">
                     <p class="section-kicker">Design Direction</p>
                     <p class="manifesto-text">
-                        主页不做传统简历陈列，而是像一块正在运转的认知表面：白色画布、暖杏色高光、极细网络线、半透明结构体，以及被鼠标扰动的参数云团。
+                        主页不再采用传统卡片式简历结构，而被处理成一个持续流动的认知场。背景像液态水银一样对鼠标产生迟滞、吸附与回弹，中央文字像展览序言一样克制地站在场中央，让“研究者”与“创意技术作者”两个身份在同一画面中成立。
                     </p>
                 </div>
                 <div class="manifesto-grid">
-                    <span>White / Claude-inspired palette</span>
-                    <span>Asymmetric composition</span>
-                    <span>Topology motion</span>
+                    <span>Mercury flow background</span>
+                    <span>Centered editorial typography</span>
+                    <span>Research narrative as visual axis</span>
                 </div>
             </div>
         </section>

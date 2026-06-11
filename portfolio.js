@@ -1,5 +1,3 @@
-import * as THREE from "https://unpkg.com/three@0.165.0/build/three.module.js";
-
 const articleMap = {
     llm: {
         title: "微调与对齐：从参数更新到行为雕刻",
@@ -68,7 +66,7 @@ function setArticle(articleId) {
 }
 
 function initReveal() {
-    const elements = document.querySelectorAll(".hero-copy, .hero-stage, .manifesto-band, .project-panel, .graph-surface, .article-drawer");
+    const elements = document.querySelectorAll(".hero-copy, .manifesto-band, .project-panel, .graph-surface, .article-drawer");
     elements.forEach((element) => {
         element.setAttribute("data-reveal", "");
     });
@@ -314,240 +312,131 @@ function initGraph() {
     setArticle("llm");
 }
 
-function initHeroTopology() {
-    const canvas = document.getElementById("hero-canvas");
+function initMercuryBackground() {
+    const canvas = document.getElementById("mercury-canvas");
     if (!canvas) {
         return;
     }
 
-    const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: true,
-        alpha: true
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0, 8.5);
-
-    const root = new THREE.Group();
-    scene.add(root);
-
-    const particleCount = 1800;
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const metadata = [];
-    const tempVector = new THREE.Vector3();
-
-    for (let index = 0; index < particleCount; index += 1) {
-        const phi = Math.acos(1 - 2 * ((index + 0.5) / particleCount));
-        const theta = Math.PI * (1 + Math.sqrt(5)) * index;
-        const radius = 2.22 + Math.sin(index * 0.18) * 0.08;
-
-        metadata.push({
-            phi,
-            theta,
-            radius,
-            noise: Math.random() * Math.PI * 2,
-            pulse: Math.random() * Math.PI * 2
-        });
-
-        positions[index * 3] = radius * Math.sin(phi) * Math.cos(theta);
-        positions[index * 3 + 1] = radius * Math.cos(phi);
-        positions[index * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
-
-        const warmMix = 0.65 + 0.35 * Math.sin(index * 0.07);
-        colors[index * 3] = 0.86;
-        colors[index * 3 + 1] = 0.58 + 0.16 * warmMix;
-        colors[index * 3 + 2] = 0.48 + 0.18 * (1 - warmMix);
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-        size: 0.035,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.92,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-    });
-
-    const points = new THREE.Points(geometry, material);
-    root.add(points);
-
-    const wirePositions = [];
-    const wireMaterial = new THREE.LineBasicMaterial({
-        color: new THREE.Color("#d48764"),
-        transparent: true,
-        opacity: 0.12
-    });
-
-    for (let index = 0; index < 180; index += 6) {
-        const current = metadata[index];
-        const next = metadata[index + 6];
-        const across = metadata[(index + 84) % metadata.length];
-
-        [next, across].forEach((target) => {
-            wirePositions.push(
-                current.radius * Math.sin(current.phi) * Math.cos(current.theta),
-                current.radius * Math.cos(current.phi),
-                current.radius * Math.sin(current.phi) * Math.sin(current.theta),
-                target.radius * Math.sin(target.phi) * Math.cos(target.theta),
-                target.radius * Math.cos(target.phi),
-                target.radius * Math.sin(target.phi) * Math.sin(target.theta)
-            );
-        });
-    }
-
-    const lineGeometry = new THREE.BufferGeometry();
-    lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(wirePositions, 3));
-    const lines = new THREE.LineSegments(lineGeometry, wireMaterial);
-    root.add(lines);
-
-    const glowGeometry = new THREE.SphereGeometry(2.4, 48, 48);
-    const glowMaterial = new THREE.ShaderMaterial({
-        uniforms: {
-            glowColor: { value: new THREE.Color("#efc9aa") }
-        },
-        vertexShader: `
-            varying vec3 vNormal;
-            void main() {
-                vNormal = normalize(normalMatrix * normal);
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-        `,
-        fragmentShader: `
-            uniform vec3 glowColor;
-            varying vec3 vNormal;
-            void main() {
-                float intensity = pow(0.8 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.6);
-                gl_FragColor = vec4(glowColor * intensity, intensity * 0.28);
-            }
-        `,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide
-    });
-    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-    glow.scale.setScalar(1.16);
-    root.add(glow);
-
-    const dustGeometry = new THREE.BufferGeometry();
-    const dustCount = 420;
-    const dustPositions = new Float32Array(dustCount * 3);
-    for (let index = 0; index < dustCount; index += 1) {
-        dustPositions[index * 3] = (Math.random() - 0.5) * 12;
-        dustPositions[index * 3 + 1] = (Math.random() - 0.5) * 10;
-        dustPositions[index * 3 + 2] = (Math.random() - 0.5) * 8;
-    }
-    dustGeometry.setAttribute("position", new THREE.BufferAttribute(dustPositions, 3));
-
-    const dust = new THREE.Points(
-        dustGeometry,
-        new THREE.PointsMaterial({
-            color: new THREE.Color("#95c9c4"),
-            size: 0.02,
-            transparent: true,
-            opacity: 0.22,
-            depthWrite: false
-        })
-    );
-    scene.add(dust);
-
-    const mouse = { x: 0, y: 0 };
-    const pointer = new THREE.Vector2();
+    const context = canvas.getContext("2d");
+    const pointer = {
+        x: window.innerWidth * 0.5,
+        y: window.innerHeight * 0.38,
+        targetX: window.innerWidth * 0.5,
+        targetY: window.innerHeight * 0.38
+    };
+    const flowNodes = [
+        { ox: 0.18, oy: 0.22, base: 170, amp: 34, speed: 0.9, color: "212, 215, 218" },
+        { ox: 0.82, oy: 0.2, base: 190, amp: 42, speed: 0.75, color: "180, 188, 195" },
+        { ox: 0.24, oy: 0.72, base: 220, amp: 56, speed: 0.62, color: "140, 150, 158" },
+        { ox: 0.78, oy: 0.74, base: 205, amp: 48, speed: 0.56, color: "120, 129, 138" },
+        { ox: 0.52, oy: 0.42, base: 250, amp: 38, speed: 0.68, color: "236, 224, 214" }
+    ];
     const ripples = [];
 
     function resize() {
-        const bounds = canvas.getBoundingClientRect();
-        renderer.setSize(bounds.width, bounds.height, false);
-        camera.aspect = bounds.width / bounds.height;
-        camera.updateProjectionMatrix();
+        canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
+        canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
     }
 
-    canvas.addEventListener("pointermove", (event) => {
-        const bounds = canvas.getBoundingClientRect();
-        mouse.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
-        mouse.y = -(((event.clientY - bounds.top) / bounds.height) * 2 - 1);
+    window.addEventListener("pointermove", (event) => {
+        pointer.targetX = event.clientX;
+        pointer.targetY = event.clientY;
     });
 
-    canvas.addEventListener("pointerleave", () => {
-        mouse.x = 0;
-        mouse.y = 0;
+    window.addEventListener("pointerleave", () => {
+        pointer.targetX = window.innerWidth * 0.5;
+        pointer.targetY = window.innerHeight * 0.38;
     });
 
-    canvas.addEventListener("click", () => {
-        ripples.push({ age: 0, strength: 0.36 });
+    window.addEventListener("click", () => {
+        ripples.push({ x: pointer.targetX, y: pointer.targetY, age: 0, strength: 1 });
     });
 
-    const clock = new THREE.Clock();
+    function drawBlob(x, y, radius, rgbaColor, blur) {
+        const gradient = context.createRadialGradient(x, y, radius * 0.08, x, y, radius);
+        gradient.addColorStop(0, `rgba(${rgbaColor}, 0.95)`);
+        gradient.addColorStop(0.55, `rgba(${rgbaColor}, 0.28)`);
+        gradient.addColorStop(1, `rgba(${rgbaColor}, 0)`);
+        context.filter = `blur(${blur}px)`;
+        context.fillStyle = gradient;
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+        context.filter = "none";
+    }
 
-    function animate() {
-        const elapsed = clock.getElapsedTime();
-        const positionArray = geometry.attributes.position.array;
+    function animate(time) {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const t = time * 0.001;
 
-        pointer.set(mouse.x, mouse.y);
+        pointer.x += (pointer.targetX - pointer.x) * 0.08;
+        pointer.y += (pointer.targetY - pointer.y) * 0.08;
 
-        for (let index = 0; index < particleCount; index += 1) {
-            const data = metadata[index];
-            const breathing = Math.sin(elapsed * 0.7 + data.noise) * 0.08;
-            const drift = Math.sin(elapsed * 1.1 + data.pulse) * 0.03;
-            const localRadius = data.radius + breathing + drift;
+        context.clearRect(0, 0, width, height);
+        context.globalCompositeOperation = "source-over";
 
-            tempVector.set(
-                Math.sin(data.phi) * Math.cos(data.theta + elapsed * 0.07),
-                Math.cos(data.phi),
-                Math.sin(data.phi) * Math.sin(data.theta + elapsed * 0.07)
-            );
+        const base = context.createLinearGradient(0, 0, width, height);
+        base.addColorStop(0, "rgba(255, 250, 245, 0.32)");
+        base.addColorStop(1, "rgba(243, 236, 228, 0.18)");
+        context.fillStyle = base;
+        context.fillRect(0, 0, width, height);
 
-            const projectedX = tempVector.x * 0.58;
-            const projectedY = tempVector.y * 0.58;
-            const distanceToMouse = Math.hypot(projectedX - pointer.x * 0.5, projectedY - pointer.y * 0.5);
-            const mouseInfluence = Math.max(0, 1 - distanceToMouse * 2.1) * 0.24;
+        context.globalCompositeOperation = "multiply";
 
-            let rippleOffset = 0;
-            ripples.forEach((ripple) => {
-                rippleOffset += Math.sin(ripple.age * 12 - distanceToMouse * 18) * ripple.strength * Math.exp(-ripple.age * 1.8);
-            });
+        flowNodes.forEach((node, index) => {
+            const driftX = Math.sin(t * node.speed + index) * node.amp;
+            const driftY = Math.cos(t * (node.speed * 0.8) + index * 0.6) * node.amp * 0.7;
+            const mouseDx = (pointer.x - width * node.ox) * 0.05;
+            const mouseDy = (pointer.y - height * node.oy) * 0.035;
+            const x = width * node.ox + driftX + mouseDx;
+            const y = height * node.oy + driftY + mouseDy;
+            const radius = node.base + Math.sin(t * 1.8 + index) * node.amp * 0.55;
+            drawBlob(x, y, radius, node.color, 26);
+            drawBlob(x + mouseDx * 0.35, y + mouseDy * 0.35, radius * 0.48, "255, 255, 255", 16);
+        });
 
-            const finalRadius = localRadius + mouseInfluence + rippleOffset;
-
-            positionArray[index * 3] = tempVector.x * finalRadius;
-            positionArray[index * 3 + 1] = tempVector.y * finalRadius;
-            positionArray[index * 3 + 2] = tempVector.z * finalRadius;
-        }
+        drawBlob(pointer.x * 0.84 + width * 0.08, pointer.y * 0.72 + height * 0.08, 170, "115, 122, 132", 38);
+        drawBlob(pointer.x, pointer.y, 92, "255, 255, 255", 20);
 
         ripples.forEach((ripple) => {
             ripple.age += 0.018;
+            const radius = 80 + ripple.age * 280;
+            context.strokeStyle = `rgba(160, 164, 170, ${0.18 * (1 - ripple.age)})`;
+            context.lineWidth = 20 * (1 - ripple.age * 0.66);
+            context.filter = "blur(8px)";
+            context.beginPath();
+            context.arc(ripple.x, ripple.y, radius, 0, Math.PI * 2);
+            context.stroke();
+            context.filter = "none";
         });
 
-        while (ripples.length && ripples[0].age > 1.5) {
+        while (ripples.length && ripples[0].age > 1) {
             ripples.shift();
         }
 
-        geometry.attributes.position.needsUpdate = true;
-        root.rotation.y = elapsed * 0.16;
-        root.rotation.x = Math.sin(elapsed * 0.2) * 0.08 + mouse.y * 0.16;
-        root.rotation.z = mouse.x * 0.12;
+        context.globalCompositeOperation = "screen";
+        const sheen = context.createLinearGradient(pointer.x - 220, pointer.y - 180, pointer.x + 260, pointer.y + 220);
+        sheen.addColorStop(0, "rgba(255,255,255,0)");
+        sheen.addColorStop(0.5, "rgba(255,255,255,0.24)");
+        sheen.addColorStop(1, "rgba(255,255,255,0)");
+        context.fillStyle = sheen;
+        context.fillRect(0, 0, width, height);
 
-        dust.rotation.y = -elapsed * 0.04;
-        glow.material.uniforms.glowColor.value.offsetHSL(Math.sin(elapsed * 0.1) * 0.0008, 0, 0);
-
-        renderer.render(scene, camera);
         requestAnimationFrame(animate);
     }
 
     resize();
     window.addEventListener("resize", resize);
-    animate();
+    requestAnimationFrame(animate);
 }
 
 initReveal();
 initAgentNetwork();
 initTrajectoryCanvas();
 initGraph();
-initHeroTopology();
+initMercuryBackground();
