@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="陆佳艺, 研究, LLM, Agent, RAG, VLM, NLP, 控制理论" />
+    <meta name="description" content="陆佳艺的研究与项目：LLM、AI Agent、RAG、多模态大模型、控制理论与系统工程实践。" />
+    <title>Research & Projects | Jiayi Lu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: "#f6f2ea",
+                        sand: "#e9dfd2",
+                        ink: "#1f1d1a",
+                        graphite: "#5e5a55",
+                        ember: "#d97757",
+                        apricot: "#f2c7a6",
+                        fog: "#fffdf8",
+                        teal: "#7ac7c4"
+                    },
+                    fontFamily: {
+                        sans: ["Manrope", "Noto Sans SC", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="portfolio.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="portfolio-body bg-paper text-ink antialiased">
+    <canvas id="mercury-canvas" class="mercury-canvas" aria-hidden="true"></canvas>
+    <div class="page-aura page-aura-one"></div>
+    <div class="page-aura page-aura-two"></div>
+
+    <nav class="site-nav">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
+            <a href="index.html" class="brand-mark">
+                <span class="brand-dot"></span>
+                <span>JIAYI LU</span>
+            </a>
+            <div class="nav-cluster">
+                <a href="index.html" class="nav-pill">Home</a>
+                <a href="research.html" class="nav-pill nav-pill-active">Research</a>
+                <a href="publication.html" class="nav-pill">Writing</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="subpage-hero">
+            <div class="mx-auto max-w-6xl px-6 pt-24 pb-12 lg:px-10">
+                <div class="hero-copy hero-copy-centered">
+                    <p class="eyebrow">RESEARCH · PROJECTS · ENGINEERING PRACTICE</p>
+                    <h1 class="hero-title subpage-title">
+                        把
+                        <span class="accent-line">课程理论、论文理解与系统实现</span>
+                        连接成一条持续向前的研究路径。
+                    </h1>
+                    <p class="hero-text">
+                        我目前的兴趣集中在 LLM、AI Agent、RAG、多模态大模型、NLP 与知识增强、控制理论与系统软件等方向。相比把研究兴趣停留在关键词层面，我更希望通过项目实践把问题定义、方法选择、实验观察与产品实现真正串起来。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section subpage-section">
+            <div class="mx-auto max-w-7xl px-6 lg:px-10">
+                <div class="subpage-grid">
+                    <article class="glass-panel story-panel">
+                        <p class="section-kicker">Education</p>
+                        <h2 class="section-title compact-title">教育与能力概览</h2>
+                        <p class="panel-text">
+                            上海大学人工智能专业本科在读（2023.9 - 至今），目前大三，GPA 3.61，专业前 15%。英语成绩为 IELTS 6.5、CET-4 631 分、CET-6 570 分。
+                        </p>
+                        <div class="chip-cluster">
+                            <span>Shanghai University</span>
+                            <span>Bachelor of AI</span>
+                            <span>Top 15%</span>
+                            <span>IELTS 6.5 / CET-4 631 / CET-6 570</span>
+                        </div>
+                    </article>
+
+                    <article class="glass-panel story-panel">
+                        <p class="section-kicker">Research Focus</p>
+                        <h2 class="section-title compact-title">研究方向</h2>
+                        <div class="chip-cluster">
+                            <span>Large Language Model</span>
+                            <span>AI Agent</span>
+                            <span>RAG</span>
+                            <span>VLM / 多模态大模型</span>
+                            <span>NLP 与知识增强</span>
+                            <span>控制理论与智能控制</span>
+                            <span>编译原理</span>
+                            <span>系统软件与工程实践</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <div class="mx-auto max-w-7xl px-6 lg:px-10">
+                <div class="section-head">
+                    <p class="section-kicker">Featured Work</p>
+                    <h2 class="section-title">重点项目既是研究问题，也是系统实现。</h2>
+                </div>
+
+                <div class="feature-stack">
+                    <article class="glass-panel feature-card feature-card-wide">
+                        <div class="feature-copy">
+                            <p class="project-index">01 / MAAR-AGENT</p>
+                            <h3>多源增强多模态 RAG 系统</h3>
+                            <p>
+                                围绕复杂问答中“检索不足、多模态利用率低、幻觉率高”的问题，设计 Multi-source Multi-modal Agent RAG 框架。系统以感知、问题分析、多源检索、重排序、推理生成、事实验证、自我纠错为主线，融合图像、网页与文本检索，并引入 CLIP 一致性、语义一致性与事实一致性验证机制，提升回答的可靠性与可解释性。
+                            </p>
+                            <ul class="project-tags">
+                                <li>Llama-3.2-11B-Vision-Instruct</li>
+                                <li>CLIP / SentenceTransformer / BGE</li>
+                                <li>FAISS / vLLM / validation pipeline</li>
+                            </ul>
+                        </div>
+                        <div class="feature-media">
+                            <img src="images/maar.png" alt="MAAR-Agent report figure" class="feature-image" />
+                        </div>
+                    </article>
+
+                    <article class="glass-panel feature-card">
+                        <div class="feature-copy">
+                            <p class="project-index">02 / MEDICAL RAG SYSTEM</p>
+                            <h3>医疗知识库 RAG 系统</h3>
+                            <p>
+                                基于 Milvus Lite、BGE-M3、BGE-Reranker-v2 与 Qwen2.5 构建面向医疗问答场景的知识库系统，完成文档切分、向量化、向量检索、混合检索、重排序与生成式回答链路，并引入查询优化、用户反馈与动态自我优化机制。
+                            </p>
+                            <ul class="project-tags">
+                                <li>Milvus Lite / BM25 / Hybrid Retrieval</li>
+                                <li>BGE-M3 / BGE-Reranker-v2</li>
+                                <li>Qwen2.5 / Streamlit / feedback loop</li>
+                            </ul>
+                        </div>
+                        <div class="feature-media feature-media-tall">
+                            <img src="images/medicalrag.png" alt="Medical RAG interface" class="feature-image" />
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <div class="mx-auto max-w-7xl px-6 lg:px-10">
+                <div class="section-head">
+                    <p class="section-kicker">Practice Path</p>
+                    <h2 class="section-title">从课程中的基础理论，到真实系统中的协作与部署。</h2>
+                </div>
+
+                <div class="timeline-shell">
+                    <article class="timeline-panel">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-body">
+                            <p class="project-index">2025.6 - 2025.9</p>
+                            <h3>心理咨询 AI Agent｜一万伏特（上海）信息科技有限公司</h3>
+                            <p>
+                                参与 40 万条心理咨询对话数据处理、Qwen3-32B 与 Qwen2.5-72B 的 SFT 微调、多 Agent 架构设计、Prompt 优化、心理学知识库构建，以及基于 Vue.js 的前端交互与分析可视化开发，完整经历了从数据工程到模型训练、从 Agent 协作到产品交互的闭环。
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="timeline-panel">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-body">
+                            <p class="project-index">2025</p>
+                            <h3>家庭系统排列分析平台</h3>
+                            <p>
+                                使用 React、React-DnD、Three.js 与 React Three Fiber 构建 2D/3D 家庭系统排列平台，并尝试结合 VLM 自动分析距离关系、朝向关系与群体结构，探索 AI、空间表达与可视化交互之间的结合方式。
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <div class="mx-auto max-w-7xl px-6 lg:px-10">
+                <div class="section-head">
+                    <p class="section-kicker">Environment</p>
+                    <h2 class="section-title">学习与合作环境</h2>
+                </div>
+
+                <div class="subpage-grid">
+                    <article class="glass-panel story-panel">
+                        <h3>上海大学</h3>
+                        <p class="panel-text">人工智能专业本科在读，持续围绕 LLM、Agent、RAG、多模态、控制理论与系统工程展开学习与项目实践。</p>
+                    </article>
+                    <article class="glass-panel story-panel">
+                        <h3>Hint Lab</h3>
+                        <p class="panel-text">参与医疗知识库 RAG 系统开发，重点实践向量数据库、混合检索、重排序与问答生成链路。</p>
+                    </article>
+                    <article class="glass-panel story-panel">
+                        <h3>一万伏特（上海）信息科技有限公司</h3>
+                        <p class="panel-text">大模型算法实习生，参与心理咨询场景中的数据工程、模型微调、多 Agent 协作系统与前端界面开发。</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-10 text-sm text-graphite lg:flex-row lg:items-center lg:justify-between lg:px-10">
+            <p>Research is meaningful when it can become a system someone can actually use.</p>
+            <p>Jiayi Lu · Shanghai · AI undergraduate</p>
+        </div>
+    </footer>
+
+    <script type="module" src="portfolio.js"></script>
+</body>
+</html>
